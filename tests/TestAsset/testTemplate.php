@@ -1,1 +1,1 @@
-<?=$this->e($hello)?>
+<?=$this->e($hello);
