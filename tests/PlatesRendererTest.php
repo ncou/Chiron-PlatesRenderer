@@ -1,8 +1,8 @@
 <?php
 
-use League\Plates\Engine;
-use Chiron\Views\TemplatePath;
 use Chiron\Views\PlatesRenderer;
+use Chiron\Views\TemplatePath;
+use League\Plates\Engine;
 use PHPUnit\Framework\TestCase;
 
 class PlatesRendererTest extends TestCase
@@ -11,11 +11,13 @@ class PlatesRendererTest extends TestCase
      * @var Engine
      */
     private $platesEngine;
+
     /**
      * @var bool
      */
     private $error;
-    public function setUp()
+
+    protected function setUp()
     {
         $this->error = false;
         $this->platesEngine = new Engine();
@@ -62,12 +64,14 @@ class PlatesRendererTest extends TestCase
         $this->assertInstanceOf(PlatesRenderer::class, $renderer);
         $this->assertEmpty($renderer->getPaths());
     }
+
     public function testLazyLoadsEngineAtInstantiationIfNoneProvided()
     {
         $renderer = new PlatesRenderer();
         $this->assertInstanceOf(PlatesRenderer::class, $renderer);
         $this->assertEmpty($renderer->getPaths());
     }
+
     public function testCanAddPath()
     {
         $renderer = new PlatesRenderer();
@@ -78,8 +82,10 @@ class PlatesRendererTest extends TestCase
         $this->assertTemplatePath(__DIR__ . '/TestAsset', $paths[0]);
         $this->assertTemplatePathString(__DIR__ . '/TestAsset', $paths[0]);
         $this->assertEmptyTemplatePathNamespace($paths[0]);
+
         return $renderer;
     }
+
     /**
      * @param PlatesRenderer $renderer
      * @depends testCanAddPath
@@ -87,10 +93,11 @@ class PlatesRendererTest extends TestCase
     public function testAddingSecondPathWithoutNamespaceIsANoopAndRaisesWarning($renderer)
     {
         $paths = $renderer->getPaths();
-        $path  = array_shift($paths);
+        $path = array_shift($paths);
         set_error_handler(function ($error, $message) {
             $this->error = true;
             $this->assertContains('duplicate', $message);
+
             return true;
         }, E_USER_WARNING);
         $renderer->addPath(__DIR__);
@@ -102,6 +109,7 @@ class PlatesRendererTest extends TestCase
         $test = array_shift($paths);
         $this->assertEqualTemplatePath($path, $test);
     }
+
     public function testCanAddPathWithNamespace()
     {
         $renderer = new PlatesRenderer();
