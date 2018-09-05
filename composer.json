@@ -1,5 +1,5 @@
 {
-  "name": "chiron/twig-renderer",
+  "name": "chiron/plates-renderer",
   "type" : "library",
   "description": "Plates Render for Chiron Framework.",
   "keywords": ["chiron","framework","view","template","plates","phpleague","renderer"],
