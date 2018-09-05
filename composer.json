@@ -2,7 +2,7 @@
   "name": "chiron/plates-renderer",
   "type" : "library",
   "description": "Plates Render for Chiron Framework.",
-  "keywords": ["chiron","framework","view","template","plates","phpleague","renderer"],
+  "keywords": ["chiron","framework","view","template","plates","phpleague","phtml","renderer"],
   "license": "MIT",
   "require": {
         "php": "^7.0",
