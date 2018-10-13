@@ -6,7 +6,7 @@ use Chiron\Views\PlatesRenderer;
 use Chiron\Views\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 
-class PhpRendererServiceProvider
+class PlatesRendererServiceProvider
 {
     /**
      * You should have in your container the config informations using the following structure :.
