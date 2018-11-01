@@ -12,7 +12,7 @@ class PlatesRenderer implements TemplateRendererInterface
     use ExtensionTrait;
 
     /**
-     * @var League\Plates\Engine
+     * @var \League\Plates\Engine
      */
     private $plates;
 
@@ -65,7 +65,7 @@ class PlatesRenderer implements TemplateRendererInterface
             $paths[] = new TemplatePath($folder->getPath(), $folder->getName());
         }
 
-        return $paths;
+        return array_reverse($paths);
     }
 
     /**

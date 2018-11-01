@@ -39,7 +39,7 @@ class PlatesRendererServiceProvider
             // grab the config settings in the container.
             $config = $c->get('templates');
             // Add template file extension.
-            $renderer->setFileExtension($config['extension']);
+            $renderer->setExtension($config['extension']);
             // Add template paths.
             $allPaths = isset($config['paths']) && is_array($config['paths']) ? $config['paths'] : [];
             foreach ($allPaths as $namespace => $paths) {
