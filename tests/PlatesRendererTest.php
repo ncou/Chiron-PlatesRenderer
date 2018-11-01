@@ -123,15 +123,15 @@ class PlatesRendererTest extends TestCase
         $this->assertEquals('Hi', $result);
     }
 
-/*
-    public function testTemplateExistsWithExtensionInFileName()
-    {
-        $renderer = new PlatesRenderer($this->platesEngine);
-        $renderer->addPath(__DIR__ . '/Fixtures');
-        $result = $renderer->exists('testTemplate.php');
-        $this->assertTrue($result);
-    }
-*/
+    /*
+        public function testTemplateExistsWithExtensionInFileName()
+        {
+            $renderer = new PlatesRenderer($this->platesEngine);
+            $renderer->addPath(__DIR__ . '/Fixtures');
+            $result = $renderer->exists('testTemplate.php');
+            $this->assertTrue($result);
+        }
+    */
 
     public function testTemplateExistsWithoutExtensionInFileName()
     {

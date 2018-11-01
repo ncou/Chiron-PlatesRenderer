@@ -2,9 +2,9 @@
 
 namespace Chiron\Views\Provider;
 
-use League\Plates\Engine;
 use Chiron\Views\PlatesRenderer;
 use Chiron\Views\TemplateRendererInterface;
+use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
 class PlatesRendererServiceProvider

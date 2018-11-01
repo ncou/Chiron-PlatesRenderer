@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Chiron\Views\Tests;
 
 use Chiron\Container\Container;
+use Chiron\Views\PlatesRenderer;
 use Chiron\Views\Provider\PlatesRendererServiceProvider;
 use Chiron\Views\TemplateRendererInterface;
-use Chiron\Views\PlatesRenderer;
 use PHPUnit\Framework\TestCase;
 
 class PlatesRendererServiceProviderTest extends TestCase
