@@ -58,29 +58,22 @@ class PlatesRendererTest extends TestCase
         }
     }
 
-    public function testCanProvideEngineAtInstantiation()
+    public function testConstructor()
     {
         $renderer = new PlatesRenderer($this->platesEngine);
         $this->assertInstanceOf(PlatesRenderer::class, $renderer);
         $this->assertEmpty($renderer->getPaths());
     }
 
-    public function testLazyLoadsEngineAtInstantiationIfNoneProvided()
-    {
-        $renderer = new PlatesRenderer();
-        $this->assertInstanceOf(PlatesRenderer::class, $renderer);
-        $this->assertEmpty($renderer->getPaths());
-    }
-
     public function testCanAddPath()
     {
-        $renderer = new PlatesRenderer();
-        $renderer->addPath(__DIR__ . '/TestAsset');
+        $renderer = new PlatesRenderer($this->platesEngine);
+        $renderer->addPath(__DIR__ . '/Fixtures');
         $paths = $renderer->getPaths();
         $this->assertInternalType('array', $paths);
         $this->assertCount(1, $paths);
-        $this->assertTemplatePath(__DIR__ . '/TestAsset', $paths[0]);
-        $this->assertTemplatePathString(__DIR__ . '/TestAsset', $paths[0]);
+        $this->assertTemplatePath(__DIR__ . '/Fixtures', $paths[0]);
+        $this->assertTemplatePathString(__DIR__ . '/Fixtures', $paths[0]);
         $this->assertEmptyTemplatePathNamespace($paths[0]);
 
         return $renderer;
@@ -112,21 +105,39 @@ class PlatesRendererTest extends TestCase
 
     public function testCanAddPathWithNamespace()
     {
-        $renderer = new PlatesRenderer();
-        $renderer->addPath(__DIR__ . '/TestAsset', 'test');
+        $renderer = new PlatesRenderer($this->platesEngine);
+        $renderer->addPath(__DIR__ . '/Fixtures', 'test');
         $paths = $renderer->getPaths();
         $this->assertInternalType('array', $paths);
         $this->assertCount(1, $paths);
-        $this->assertTemplatePath(__DIR__ . '/TestAsset', $paths[0]);
-        $this->assertTemplatePathString(__DIR__ . '/TestAsset', $paths[0]);
+        $this->assertTemplatePath(__DIR__ . '/Fixtures', $paths[0]);
+        $this->assertTemplatePathString(__DIR__ . '/Fixtures', $paths[0]);
         $this->assertTemplatePathNamespace('test', $paths[0]);
     }
 
     public function testDelegatesRenderingToUnderlyingImplementation()
     {
-        $renderer = new PlatesRenderer();
-        $renderer->addPath(__DIR__ . '/TestAsset');
+        $renderer = new PlatesRenderer($this->platesEngine);
+        $renderer->addPath(__DIR__ . '/Fixtures');
         $result = $renderer->render('testTemplate', ['hello' => 'Hi']);
         $this->assertEquals('Hi', $result);
+    }
+
+/*
+    public function testTemplateExistsWithExtensionInFileName()
+    {
+        $renderer = new PlatesRenderer($this->platesEngine);
+        $renderer->addPath(__DIR__ . '/Fixtures');
+        $result = $renderer->exists('testTemplate.php');
+        $this->assertTrue($result);
+    }
+*/
+
+    public function testTemplateExistsWithoutExtensionInFileName()
+    {
+        $renderer = new PlatesRenderer($this->platesEngine);
+        $renderer->addPath(__DIR__ . '/Fixtures');
+        $result = $renderer->exists('testTemplate');
+        $this->assertTrue($result);
     }
 }

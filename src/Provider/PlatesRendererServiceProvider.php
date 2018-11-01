@@ -2,6 +2,7 @@
 
 namespace Chiron\Views\Provider;
 
+use League\Plates\Engine;
 use Chiron\Views\PlatesRenderer;
 use Chiron\Views\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
@@ -23,21 +24,23 @@ class PlatesRendererServiceProvider
      */
     public function register(ContainerInterface $container)
     {
-        // config
+        // add default config settings if not already presents in the container.
         if (! $container->has('templates')) {
             $container['templates'] = [
                 'extension' => 'html',
                 'paths'     => [],
             ];
         }
-        // factory
+
+        // *** Factories ***
         $container[PlatesRenderer::class] = function ($c) {
+            // TODO : créer une classe EngineFactory avec la gestion des fonctions et des extensions. cf twigrenderer
+            $renderer = new PlatesRenderer(new Engine());
+            // grab the config settings in the container.
             $config = $c->get('templates');
-
-            $renderer = new PlatesRenderer();
+            // Add template file extension.
             $renderer->setFileExtension($config['extension']);
-
-            // Add template paths
+            // Add template paths.
             $allPaths = isset($config['paths']) && is_array($config['paths']) ? $config['paths'] : [];
             foreach ($allPaths as $namespace => $paths) {
                 $namespace = is_numeric($namespace) ? null : $namespace;
@@ -48,7 +51,8 @@ class PlatesRendererServiceProvider
 
             return $renderer;
         };
-        // alias
+
+        // *** Alias ***
         $container[TemplateRendererInterface::class] = function ($c) {
             return $c->get(PlatesRenderer::class);
         };

@@ -9,23 +9,16 @@ use League\Plates\Engine;
 class PlatesRenderer implements TemplateRendererInterface
 {
     use AttributesTrait;
+    use ExtensionTrait;
 
     /**
-     * @var Engine
+     * @var League\Plates\Engine
      */
-    private $engine;
+    private $plates;
 
-    public function __construct(Engine $engine = null)
+    public function __construct(Engine $plates)
     {
-        $this->engine = $engine ?: $this->createPlatesEngine();
-    }
-
-    /**
-     * Create a default Plates engine.
-     */
-    private function createPlatesEngine(): Engine
-    {
-        return new Engine();
+        $this->plates = $plates;
     }
 
     /**
@@ -36,7 +29,7 @@ class PlatesRenderer implements TemplateRendererInterface
         //$params = $this->normalizeParams($params);
         $params = array_merge($this->attributes, $params);
 
-        return $this->engine->render($name, $params);
+        return $this->plates->render($name, $params);
     }
 
     /**
@@ -49,8 +42,8 @@ class PlatesRenderer implements TemplateRendererInterface
      */
     public function addPath(string $path, string $namespace = null): void
     {
-        if (! $namespace && ! $this->engine->getDirectory()) {
-            $this->engine->setDirectory($path);
+        if (! $namespace && ! $this->plates->getDirectory()) {
+            $this->plates->setDirectory($path);
 
             return;
         }
@@ -59,7 +52,7 @@ class PlatesRenderer implements TemplateRendererInterface
 
             return;
         }
-        $this->engine->addFolder($namespace, $path);
+        $this->plates->addFolder($namespace, $path);
     }
 
     /**
@@ -67,9 +60,7 @@ class PlatesRenderer implements TemplateRendererInterface
      */
     public function getPaths(): array
     {
-        $paths = $this->engine->getDirectory()
-            ? [$this->getDefaultPath()]
-            : [];
+        $paths = $this->plates->getDirectory() ? [$this->getDefaultPath()] : [];
         foreach ($this->getPlatesFolders() as $folder) {
             $paths[] = new TemplatePath($folder->getPath(), $folder->getName());
         }
@@ -86,7 +77,7 @@ class PlatesRenderer implements TemplateRendererInterface
      */
     public function exists(string $name): bool
     {
-        return $this->engine->exists($name);
+        return $this->plates->exists($name);
     }
 
     /**
@@ -94,7 +85,7 @@ class PlatesRenderer implements TemplateRendererInterface
      */
     private function getDefaultPath(): TemplatePath
     {
-        return new TemplatePath($this->engine->getDirectory());
+        return new TemplatePath($this->plates->getDirectory());
     }
 
     /**
@@ -104,7 +95,7 @@ class PlatesRenderer implements TemplateRendererInterface
      */
     private function getPlatesFolders(): array
     {
-        $folders = $this->engine->getFolders();
+        $folders = $this->plates->getFolders();
         $r = new \ReflectionProperty($folders, 'folders');
         $r->setAccessible(true);
 
@@ -118,11 +109,19 @@ class PlatesRenderer implements TemplateRendererInterface
      *
      * @return $this
      */
-    // TODO : méthode à virer ???? et donc forcer dans le constructeur d'avoir un objet Engine déjà initialisé avec les bonnes extensions ????
-    public function setFileExtension(string $extension): self
+    public function setExtension(string $extension): TemplateRendererInterface
     {
-        $this->engine->setFileExtension($extension);
-
+        $this->extension = $extension;
+        $this->plates->setFileExtension($extension);
         return $this;
     }
+
+    /**
+     * Return the Plates Engine.
+     */
+    public function plates(): Engine
+    {
+        return $this->plates;
+    }
+
 }
