@@ -63,6 +63,9 @@ class PlatesRendererTest extends TestCase
         $renderer = new PlatesRenderer($this->platesEngine);
         $this->assertInstanceOf(PlatesRenderer::class, $renderer);
         $this->assertEmpty($renderer->getPaths());
+
+        $plates = $renderer->plates();
+        $this->assertInstanceOf(Engine::class, $plates);
     }
 
     public function testCanAddPath()
