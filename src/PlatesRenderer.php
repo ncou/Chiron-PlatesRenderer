@@ -113,6 +113,7 @@ class PlatesRenderer implements TemplateRendererInterface
     {
         $this->extension = $extension;
         $this->plates->setFileExtension($extension);
+
         return $this;
     }
 
@@ -123,5 +124,4 @@ class PlatesRenderer implements TemplateRendererInterface
     {
         return $this->plates;
     }
-
 }
