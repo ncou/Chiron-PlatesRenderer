@@ -6,8 +6,10 @@ use Chiron\Views\PlatesRenderer;
 use Chiron\Views\TemplateRendererInterface;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
+use Chiron\Bootload\ServiceProvider\ServiceProviderInterface;
+use Chiron\Container\BindingInterface;
 
-class PlatesRendererServiceProvider
+class PlatesRendererServiceProvider implements ServiceProviderInterface
 {
     /**
      * You should have in your container the config informations using the following structure :.
@@ -22,7 +24,7 @@ class PlatesRendererServiceProvider
      *     ],
      * ],
      */
-    public function register(ContainerInterface $container)
+    public function register(BindingInterface $container): void
     {
         // add default config settings if not already presents in the container.
         if (! $container->has('templates')) {
@@ -53,8 +55,6 @@ class PlatesRendererServiceProvider
         };
 
         // *** Alias ***
-        $container[TemplateRendererInterface::class] = function ($c) {
-            return $c->get(PlatesRenderer::class);
-        };
+        //$container->alias(TemplateRendererInterface::class, PlatesRenderer::class);
     }
 }

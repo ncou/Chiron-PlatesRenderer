@@ -27,7 +27,7 @@
   },
   "extra": {
     "chiron": {
-        "providers": ["Chiron\\Views\\Provider\\PlatesRendererServiceProvider"]
+        "providers_A_CORRIGER": ["Chiron\\Views\\Provider\\PlatesRendererServiceProvider"]
     }
   }
 }
