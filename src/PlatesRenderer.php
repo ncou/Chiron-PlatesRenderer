@@ -40,7 +40,7 @@ class PlatesRenderer implements TemplateRendererInterface
      * folders, only the default directory; overwriting the default directory
      * is likely unintended.
      */
-    public function addPath(string $path, string $namespace = null): void
+    public function addPath(string $path, ?string $namespace = null): void
     {
         if (! $namespace && ! $this->plates->getDirectory()) {
             $this->plates->setDirectory($path);
