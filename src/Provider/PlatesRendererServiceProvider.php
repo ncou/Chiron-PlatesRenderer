@@ -6,7 +6,7 @@ use Chiron\Views\PlatesRenderer;
 use Chiron\Views\TemplateRendererInterface;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
-use Chiron\Bootload\ServiceProvider\ServiceProviderInterface;
+use Chiron\Core\Container\Provider\ServiceProviderInterface;
 use Chiron\Container\BindingInterface;
 
 class PlatesRendererServiceProvider implements ServiceProviderInterface
